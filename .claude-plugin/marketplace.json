@@ -10,31 +10,18 @@
   },
   "plugins": [
     {
-      "name": "core",
-      "description": "ThunderID installation and setup",
+      "name": "thunderid-skills",
+      "description": "ThunderID server setup and framework integration skills",
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/core/setup-thunderid"
-      ]
-    },
-    {
-      "name": "integration",
-      "description": "Framework and platform-specific ThunderID integration",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/integration/integrate-nextjs",
-        "./skills/integration/integrate-nuxt",
-        "./skills/integration/integrate-react",
-        "./skills/integration/integrate-react-router",
-        "./skills/integration/integrate-tanstack-router",
-        "./skills/integration/integrate-vue",
-        "./skills/integration/integrate-express",
-        "./skills/integration/integrate-node",
-        "./skills/integration/integrate-browser",
-        "./skills/integration/integrate-javascript",
-        "./skills/integration/integrate-oidc"
+        "./skills/install",
+        "./skills/try-consumer",
+        "./skills/try-agentid",
+        "./skills/integrate-nextjs",
+        "./skills/integrate-react",
+        "./skills/integrate-vue",
+        "./skills/integrate-nuxt"
       ]
     }
   ]
