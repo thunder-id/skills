@@ -52,6 +52,3 @@ After adding the marketplace, restart Codex, open `/plugins`, select
 ## License
 
 Licenses this source under the Apache License, Version 2.0 ([LICENSE](LICENSE)), You may not use this file except in compliance with the License.
-
----------------------------------------------------------------------------
-(c) Copyright 2026 WSO2 LLC.
