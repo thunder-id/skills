@@ -16,7 +16,7 @@ Assumes ThunderID is running at `https://localhost:8090`. If not, run `/thunderi
 
 Open the Console at `https://localhost:8090/console`, navigate to **Applications**, and click **Add Application**:
 
-1. Under **Technology**, select **Express**.
+1. From the **Choose a type** page, select **Express**.
 2. Enter a name (e.g. `My Express App`) and create an application. The rest of the settings can stay at their defaults.
 3. Copy the **Client ID** and **Client Secret** from the window that pops up (also available on the **General** tab's Quick Copy section).
 4. Under **General**, add `http://localhost:3000/login` to the list of **Authorized Redirect URIs**.

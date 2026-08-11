@@ -1,0 +1,95 @@
+# Entrypoint workflow for releasing the ThunderID Skills plugin bundle.
+# The whole repo is versioned as a single unit — every skill ships together,
+# so there's one version number synced across the plugin manifests.
+
+name: 🚀 Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+      confirm_major:
+        description: 'Check to confirm intentional major bump (required when bump_type is major)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+env:
+  RELEASE_GIT_USER_NAME: "thunderid[bot]"
+  RELEASE_GIT_USER_EMAIL: "thunderid[bot]@users.noreply.thunderid.dev"
+
+jobs:
+  validate:
+    name: ✅ Validate Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard against accidental major bump
+        if: github.event.inputs.bump_type == 'major' && github.event.inputs.confirm_major != 'true'
+        run: |
+          echo "❌ bump_type is 'major' but confirm_major is not checked. Enable confirm_major to proceed."
+          exit 1
+
+  release:
+    name: 🚀 Release thunderid-skills
+    needs: [validate]
+    if: needs.validate.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: 🏷️ Bump Version
+        id: bump
+        run: |
+          current="$(jq -r '.version' .codex-plugin/plugin.json)"
+          IFS='.' read -r major minor patch <<< "$current"
+
+          case "${{ github.event.inputs.bump_type }}" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+          esac
+
+          version="$major.$minor.$patch"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+          jq --arg v "$version" '.version = $v' .codex-plugin/plugin.json > /tmp/plugin.json
+          mv /tmp/plugin.json .codex-plugin/plugin.json
+
+          jq --arg v "$version" '.metadata.version = $v' .claude-plugin/marketplace.json > /tmp/marketplace.json
+          mv /tmp/marketplace.json .claude-plugin/marketplace.json
+
+      - name: 📤 Commit, Tag & Push
+        run: |
+          git config user.name "${{ env.RELEASE_GIT_USER_NAME }}"
+          git config user.email "${{ env.RELEASE_GIT_USER_EMAIL }}"
+          git add .codex-plugin/plugin.json .claude-plugin/marketplace.json
+          git commit -m "[Release] thunderid-skills v${{ steps.bump.outputs.version }}"
+          for i in $(seq 1 5); do
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin HEAD:${{ github.ref_name }} && break
+            [ "$i" -eq 5 ] && exit 1
+            sleep $((i * 3))
+          done
+          git tag "v${{ steps.bump.outputs.version }}"
+          git push origin "v${{ steps.bump.outputs.version }}"
+
+      - name: 🚀 Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ steps.bump.outputs.version }}" \
+            --title "ThunderID Skills v${{ steps.bump.outputs.version }}" \
+            --generate-notes

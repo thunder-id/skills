@@ -29,7 +29,7 @@ You (the agent) do not have access to the Console — do not attempt to create t
 
 Tell the user to open the Console at `https://localhost:8090/console`, navigate to **Applications**, click **Add Application**, and:
 
-1. Under **Technology**, select **Nuxt**.
+1. From the **Choose a type** page, select **Nuxt**.
 2. Enter a name (e.g. `My Nuxt App`) and create an application. The rest of the settings can stay at their defaults.
 3. From the window that pops up:
    - **Redirect**: copy the **Client ID**.

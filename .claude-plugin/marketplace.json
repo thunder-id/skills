@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Agent skills & plugins for developers using ThunderID",
-    "version": "0.1.0"
+    "version": "0.0.0"
   },
   "plugins": [
     {
@@ -15,13 +15,15 @@
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/install",
-        "./skills/try-consumer",
-        "./skills/try-agentid",
-        "./skills/integrate-nextjs",
-        "./skills/integrate-react",
-        "./skills/integrate-vue",
-        "./skills/integrate-nuxt"
+        "./skills/thunderid-install",
+        "./skills/thunderid-try-consumer",
+        "./skills/thunderid-try-agentid",
+        "./skills/thunderid-integrate-nextjs",
+        "./skills/thunderid-integrate-react",
+        "./skills/thunderid-integrate-vue",
+        "./skills/thunderid-integrate-nuxt",
+        "./skills/thunderid-integrate-browser",
+        "./skills/thunderid-integrate-express"
       ]
     }
   ]
