@@ -16,7 +16,7 @@ Assumes ThunderID is running at `https://localhost:8090`. If not, run `/thunderi
 
 Open the Console at `https://localhost:8090/console`, navigate to **Applications**, and click **Add Application**:
 
-1. Under **Technology**, select **React**.
+1. From the **Choose a type** page, select **React**.
 2. Enter a name (e.g. `My React App`) and create an application. The rest of the settings can stay at their defaults.
 3. Copy the **Client ID** from the **General** tab. You'll need it when configuring the SDK.
 4. Under **General**, add `http://localhost:5173` to the list of **Authorized Redirect URIs** (adjust the port if your dev server uses a different one).
