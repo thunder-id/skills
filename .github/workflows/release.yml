@@ -49,6 +49,8 @@ jobs:
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          token: ${{ secrets.THUNDERID_AUTOMATION_BOT }}
 
       - name: 🏷️ Bump Version
         id: bump
@@ -88,7 +90,7 @@ jobs:
 
       - name: 🚀 Create GitHub Release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.THUNDERID_AUTOMATION_BOT }}
         run: |
           gh release create "v${{ steps.bump.outputs.version }}" \
             --title "ThunderID Skills v${{ steps.bump.outputs.version }}" \
