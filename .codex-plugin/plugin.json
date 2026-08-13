@@ -14,7 +14,7 @@
   "interface": {
     "displayName": "ThunderID",
     "shortDescription": "ThunderID auth SDK installation and framework guidance",
-    "longDescription": "Official ThunderID skills bundle — set up the server, install the SDK, configure providers, protect routes, and access session data across Next.js, Nuxt, React, Vue, Express, Node.js, and more.",
+    "longDescription": "Official ThunderID skills bundle — set up the server, install the SDK, configure providers, protect routes, and access session data across Next.js, Nuxt, React, Vue, Express, Node.js, vanilla JavaScript, iOS, Android, and Flutter.",
     "developerName": "ThunderID",
     "category": "Coding",
     "capabilities": ["Read", "Write"],
