@@ -23,7 +23,11 @@
         "./skills/thunderid-integrate-vue",
         "./skills/thunderid-integrate-nuxt",
         "./skills/thunderid-integrate-browser",
-        "./skills/thunderid-integrate-express"
+        "./skills/thunderid-integrate-express",
+        "./skills/thunderid-integrate-nodejs",
+        "./skills/thunderid-integrate-ios",
+        "./skills/thunderid-integrate-android",
+        "./skills/thunderid-integrate-flutter"
       ]
     }
   ]
