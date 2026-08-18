@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Agent skills & plugins for developers using ThunderID",
-    "version": "0.0.2"
+    "version": "0.0.3"
   },
   "plugins": [
     {
