@@ -1,6 +1,6 @@
 {
   "name": "thunderid-skills",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Agent skills & plugins for developers using ThunderID",
   "author": {
     "name": "ThunderID",
