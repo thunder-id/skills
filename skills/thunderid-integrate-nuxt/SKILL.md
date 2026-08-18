@@ -26,10 +26,9 @@ If the fetch fails (offline, docs unreachable), tell the user and give them the 
 
 - Detect the package manager from lockfiles: `pnpm-lock.yaml` → `pnpm add`, `yarn.lock` → `yarn add`, `bun.lockb` → `bun add`, else `npm install`.
 - Generate any session-signing secret the guide asks for with `openssl rand -base64 32`.
-- All components registered by `@thunderid/nuxt` use a `ThunderID` prefix (e.g. `ThunderIDSignedIn`, `ThunderIDSignInButton`) and are auto-imported — no manual imports needed.
+- Components registered by `@thunderid/nuxt` use the same bare names as `@thunderid/vue`/`@thunderid/react` (e.g. `SignedIn`, `SignInButton`, `SignIn`, `UserProfile`) and are auto-imported — no manual imports needed. `ThunderIDRoot` is the one exception, since it's the app-wrapping root component with no bare-name equivalent.
 
 ## Troubleshooting
 
 - **Certificate error** — Visit `https://localhost:8090` in your browser and accept the warning once.
 - **`invalid_client`** — Double-check the Client ID/Client Secret in `.env` against the application's General tab.
-- **Component not found (e.g. `<SignedIn>` fails but `<ThunderIDSignedIn>` works)** — Nuxt components from this module are always prefixed with `ThunderID`; there are no unprefixed exports.
