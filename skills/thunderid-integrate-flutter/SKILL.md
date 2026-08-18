@@ -5,7 +5,7 @@ license: Apache-2.0
 allowed-tools: WebFetch, Bash(flutter:*), Bash(dart:*), Bash(pub:*), Read, Write, Edit
 metadata:
   author: thunderid
-  version: 0.1.0
+  version: 0.0.2
 ---
 
 # ThunderID — Flutter Integration

@@ -5,7 +5,7 @@ license: Apache-2.0
 allowed-tools: WebFetch, Bash(npm:*), Bash(npx:*), Bash(pnpm:*), Bash(yarn:*), Bash(bun:*), Read, Write, Edit
 metadata:
   author: thunderid
-  version: 0.2.0
+  version: 0.0.2
 ---
 
 # ThunderID — JavaScript (Browser) Integration

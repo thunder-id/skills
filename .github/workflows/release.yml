@@ -1,7 +1,6 @@
 # Entrypoint workflow for releasing the ThunderID Skills plugin bundle.
-# The bundle itself is versioned as a single unit via the plugin manifests.
-# Individual skills carry their own version too, bumped by the same amount,
-# but only when that skill's SKILL.md changed since the previous release tag.
+# The bundle is versioned as a single unit via the plugin manifests, and
+# every individual skill's SKILL.md is kept in lockstep with that same version.
 
 name: 🚀 Release
 
@@ -77,58 +76,18 @@ jobs:
           jq --arg v "$version" '.metadata.version = $v' .claude-plugin/marketplace.json > /tmp/marketplace.json
           mv /tmp/marketplace.json .claude-plugin/marketplace.json
 
-      - name: 🏷️ Bump Changed Skill Versions
-        id: bump_skills
+      - name: 🏷️ Sync Skill Versions
         run: |
-          bump_semver() {
-            IFS='.' read -r major minor patch <<< "$1"
-            case "${{ github.event.inputs.bump_type }}" in
-              major) major=$((major + 1)); minor=0; patch=0 ;;
-              minor) minor=$((minor + 1)); patch=0 ;;
-              patch) patch=$((patch + 1)) ;;
-            esac
-            echo "$major.$minor.$patch"
-          }
-
-          prev_tag="$(git describe --tags --abbrev=0 2>/dev/null || true)"
-
-          if [ -n "$prev_tag" ]; then
-            changed_files="$(git diff --name-only "$prev_tag" -- 'skills/*/SKILL.md')"
-          else
-            changed_files="$(git ls-files 'skills/*/SKILL.md')"
-          fi
-
-          bumped=""
-          for file in $changed_files; do
-            [ -f "$file" ] || continue
-
-            # Skip if the only diff vs the previous tag is the version line itself.
-            if [ -n "$prev_tag" ]; then
-              if ! git diff "$prev_tag" -- "$file" | grep -qvE '^(diff|index|---|\+\+\+|@@|[-+]  version: )'; then
-                continue
-              fi
-            fi
-
-            current_version="$(sed -n 's/^  version: //p' "$file" | head -1)"
-            [ -n "$current_version" ] || continue
-
-            new_version="$(bump_semver "$current_version")"
-            sed -i "0,/^  version: /s/^  version: .*/  version: $new_version/" "$file"
-
-            skill_name="$(basename "$(dirname "$file")")"
-            bumped="$bumped $skill_name@$new_version"
+          version="${{ steps.bump.outputs.version }}"
+          for file in skills/*/SKILL.md; do
+            sed -i "0,/^  version: /s/^  version: .*/  version: $version/" "$file"
           done
-
-          echo "bumped=${bumped# }" >> "$GITHUB_OUTPUT"
 
       - name: 📤 Commit, Tag & Push
         run: |
           git config user.name "${{ env.RELEASE_GIT_USER_NAME }}"
           git config user.email "${{ env.RELEASE_GIT_USER_EMAIL }}"
           git add .codex-plugin/plugin.json .claude-plugin/marketplace.json skills/*/SKILL.md
-          if [ -n "${{ steps.bump_skills.outputs.bumped }}" ]; then
-            echo "Bumped skill versions: ${{ steps.bump_skills.outputs.bumped }}"
-          fi
           git commit -m "[Release] thunderid-skills v${{ steps.bump.outputs.version }}"
           for i in $(seq 1 5); do
             git pull --rebase origin ${{ github.ref_name }}
