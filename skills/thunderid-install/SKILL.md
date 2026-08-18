@@ -5,7 +5,7 @@ license: Apache-2.0
 allowed-tools: Bash(npm:*), Bash(npx:*), Bash(lsof:*)
 metadata:
   author: thunderid
-  version: 0.0.3
+  version: 1.0.0
 ---
 
 # ThunderID Server Setup
